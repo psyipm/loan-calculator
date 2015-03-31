@@ -1,0 +1,42 @@
+div class="col-md-8 col-md-offset-2"
+  h1 Кредитный калькулятор
+
+  p Предлагаем вам рассчитать ориентировочную сумму ежемесячных платежей по возврату основной суммы и процентов за пользование кредитом в зависимости от срока кредитования и размера процентной ставки, а также определить наиболее удобную для вас схему кредитования.
+
+  p Более подробную информацию можно получить при личной встрече с кредитным экспертом.
+
+  form action="/calculate" method="post"
+    fieldset 
+    legend Кредитные сведения
+
+    .col-md-5
+      label.control-label for="rate" Процентная ставка (%):
+    .col-md-6.form-group
+      input#rate.form-control type="number" name="rate" placeholder="20" min="1" step="any" required=true
+
+    .col-md-5
+      label.control-label for="amount" Сумма кредита:
+    .col-md-6.form-group
+      input#amount.form-control type="number" name="amount" placeholder="1000" min="1" step="any" required=true
+
+    .col-md-5
+      label.control-label Метод погашения кредита:
+    .col-md-6.form-group
+      .col-md-12
+        label.radio 
+          input type="radio" name="method" value="true" required=true checked=true
+          ' Стандартный
+        label.radio
+          input type="radio" name="method" value="false" required=true
+          ' Аннуитентный (равными частями)
+
+    .col-md-5
+      label.control-label for="periods" Срок кредита (в месяцах):
+    .col-md-6.form-group
+      input#periods.form-control type="number" name="periods" placeholder="12" min="1" required=true
+
+    legend График платежей
+    
+    .controls
+      button#submit-btn.btn.btn-default type="submit"
+        ' Построить

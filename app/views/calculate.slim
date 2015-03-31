@@ -1,0 +1,33 @@
+.page-header
+  h1 Расчет выплат по кредиту
+  
+.panel.panel-default
+  .panel-heading 
+    - if @method
+      ' Расчет дифференцированного платежа
+    - else
+      ' Расчет аннуитетного платежа
+
+  table.table
+    thead
+      tr
+        th #
+        th Задолженность по кредиту
+        th Начисленные проценты
+        th Основной долг
+        th Сумма платежа
+    tbody
+      - @schedule.each do |payment|
+        tr
+          td = payment[:period]
+          td = payment[:loan_debt]
+          td = payment[:accrued_interest]
+          td = payment[:main_debt]
+          td = payment[:total_payment]
+    tfoot
+      tr
+        td Итого:
+        td
+        td = @totals[:total_interest]
+        td = @totals[:initial_amount]
+        td = @totals[:total_payments]
