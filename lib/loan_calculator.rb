@@ -11,20 +11,12 @@ class LoanCalculator
     @initial_amount = amount
     @total_payments = 0
   end
-
-  def get_totals
-    return {
-      total_interest: @total_interest.round(2), 
-      initial_amount: @initial_amount, 
-      total_payments: @total_payments.round(2)
-    }
-  end
   
   def differential_payment
     main_debt = @amount/@periods
 
     @periods.times do |n|
-      interest = (@amount)*(@interest_rate/@periods)
+      interest = (@amount)*(@interest_rate/12)
       payment = main_debt + interest
 
       make_schedule n, @amount, interest, main_debt, payment
@@ -35,13 +27,13 @@ class LoanCalculator
   end
 
   def annuity_payment
-    # i - interest per period
-    i = @interest_rate/@periods
+    # i - interest per month
+    i = @interest_rate/12
     annuity_factor = (i * (1 + i) ** @periods) / ((1 + i) ** @periods -1)
     payment = annuity_factor * @amount
 
     @periods.times do |n|
-      interest = (@amount)*(@interest_rate/@periods)
+      interest = (@amount)*i
       main_debt = payment - interest
 
       make_schedule n, @amount, interest, main_debt, payment
@@ -62,5 +54,13 @@ class LoanCalculator
       }
       @total_interest += accrued
       @total_payments += payment
+    end
+
+    def get_totals
+      return {
+        total_interest: @total_interest.round(2),
+        initial_amount: @initial_amount,
+        total_payments: @total_payments.round(2)
+      }
     end
 end
